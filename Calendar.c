@@ -17,8 +17,11 @@ int main(void)
 {
 	int year, month;
 	printf("Please input a year: ");
-	scanf("%d", &year);
-	printCalendarWholeYear(year);
+	while (scanf("%d", &year) != EOF)
+	{
+		printCalendarWholeYear(year);
+		printf("Please input a year: ");
+	}
 	return 0;
 }
 
@@ -30,7 +33,11 @@ int is_leap(int year)  // ÅĞ¶Ï¸ÃÄêÊÇ·ñÊÇÈòÄê
 	return 0;
 }
 
-int yearFirstDay_weekday(int year)
+// * °´ÕÕ¹æ¶¨µÄ0001Äê 1ÔÂ 1ÈÕ¿ªÊ¼
+// * ¼ÆËã´Ó 0001Äê 1ÔÂ 1ÈÕ¿ªÊ¼µ½¹æ¶¨Äê·İÓĞ¶àÉÙÌì
+// * ÏÈ¼ÙÉèÃ»ÓĞÈòÄê£¬ËùÒÔ¼Ó365x£¨year - 1£©
+// * È»ºó²¹³äÈòÄêÊı
+int yearFirstDay(int year)
 {
 	int n = 0, i;
 
@@ -45,7 +52,7 @@ int yearFirstDay_weekday(int year)
 
 int monthFirstDay_weekday(int year, int month)  // ¼ÆËã¸ÃÄê¸ÃÔÂµÚÒ»ÌìÊÇ´Ó0001ÄêËãÆğµÄµÚ¼¸Ìì£¬²¢»»Ëã³ÉĞÇÆÚ¼¸
 {
-	int day = yearFirstDay_weekday(year), i;          // ÏÈËã³ö¸ÃÄê1ÔÂ1ÈÕÊÇµÚ¼¸Ìì
+	int day = yearFirstDay(year), i;          // ÏÈËã³ö¸ÃÄê1ÔÂ1ÈÕÊÇµÚ¼¸Ìì
 
 	if (is_leap(year))
 	{
@@ -68,6 +75,7 @@ int monthFirstDay_weekday(int year, int month)  // ¼ÆËã¸ÃÄê¸ÃÔÂµÚÒ»ÌìÊÇ´Ó0001ÄêË
 void printCalendar(int year, int month)
 {
 	int i, j, day = 1;
+	
 	
 	for (i = 0; i < 7; i++)
 	{
@@ -124,11 +132,16 @@ void printCalendar(int year, int month)
 
 void printCalendarWholeYear(int year)
 {
-	int m = 1;
+	int m = 1, i;
 
 	printf("Year %d: \n", year);
 	for (m = 1; m <= 12; m++)
 	{
+		for (i = 0; i < 7; i++)
+		{
+			printf("=+=+=");
+		}
+		putchar('\n');
 		printf("%s: \n\n", monthNames[m - 1]);
 		printCalendar(year, m);
 	}
